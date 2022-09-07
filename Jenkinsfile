@@ -1,23 +1,21 @@
-// Define secret variables
-def MY_PASSWORD = "YWVyY3dxZWY"
-def MY_SECRET = "ZGZoeWt5OGt"
-
-// Mask secret variables and try to print
 pipeline {
-  agent any
-  stages {
-    stage ("Print variable") {
-      steps {
-        wrap([$class: "MaskPasswordsBuildWrapper",
-              varPasswordPairs: [[password: MY_PASSWORD],
-                                 [password: MY_SECRET]]]) {
-          echo "Password: ${MY_PASSWORD}"
-          echo "Secret: ${MY_SECRET}"
+    agent any
+
+    stages {
+        stage('Secret-Masking') {
+            steps {
+            script{
+                MASKED_SECRET = 'I_SHOULD_BE_MASKED'
+                wrap([$class: 'MaskPasswordsBuildWrapper', 
+                     varPasswordPairs: [[password: MASKED_SECRET]]]) { 
+                  withEnv(["SECRET=${MASKED_SECRET}"]){
+                  echo 'Whoops interpolated secret leaked in Blue Ocean: ' + SECRET
+                  sh 'echo Mask that secret without interpolation: $SECRET'
+                  sh 'printenv | grep SECRET'
+            }
+          }
         }
       }
     }
-    
-    
-    
   }
 }
