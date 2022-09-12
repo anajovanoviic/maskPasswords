@@ -10,6 +10,8 @@ pipeline {
                     
                 echo 'Retrieve Secret: ' +  MASKED_SECRET
                 echo MASKED_SECRET
+                sh 'echo Mask that secret without interpolation: $MASKED_SECRET'
+
              }
         } 
       }
