@@ -11,7 +11,7 @@ pipeline {
                 echo 'Retrieve Secret: ' +  MASKED_SECRET
                 echo MASKED_SECRET
              }
-        }
+        } 
       }
     }
   }
