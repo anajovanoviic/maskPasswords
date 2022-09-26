@@ -12,7 +12,7 @@ pipeline {
                 echo 'Retrieve Secret: ' +  MASKED_SECRET
                 echo MASKED_SECRET
                 sh 'echo Mask that secret without interpolation: $MASKED_SECRET'
-                sh 'printenv | grep MASKED_SECRET'
+                sh 'printenv | grep MASKED_SECRET' //ova linija izaziva gresku
 
              }
         } 
